@@ -161,12 +161,15 @@ public class Add_Note extends AppCompatActivity implements View.OnClickListener 
         String title = e_Title.getEditText().getText().toString().trim();
         String date = e_Date.getEditText().getText().toString().trim();
         String time = e_Time.getEditText().getText().toString().trim();
+        Log.d(TAG,"correct date:"+date);
+        String[] dateParts = date.split("-");
+        String month = dateParts[1];
         //check field validations
         if (!validateTitle() | !validateDate() | !validateTime()) {
            return;
         }
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Note note = new Note(title, date, time, new Timestamp(new Date()), userId);
+        Note note = new Note(title, date, time, new Timestamp(new Date()), userId,month);
         FirebaseFirestore.getInstance()
                 .collection("TodoList")
                 .add(note)

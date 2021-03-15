@@ -8,7 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_yellow">#E0FFFFFF</color>
-
     <color name="red">#FF3E57</color>
     <color name="sample">#FF6200EE</color>
 </resources>

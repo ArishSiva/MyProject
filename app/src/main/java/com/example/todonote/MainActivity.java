@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,11 +57,14 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 public class MainActivity<notificationHelper> extends AppCompatActivity implements FirebaseAuth.AuthStateListener, NotesRecyclerAdapter.NoteListener {
 
     private static final String TAG = "MainActivity";
-    FloatingActionButton floatingActionButton;
+    FloatingActionButton fabMain,fabOne,fabTwo;
     //RecyclerView
     RecyclerView recyclerView;
     NotesRecyclerAdapter notesRecyclerAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    Float translationY=100f;
+    Boolean isMenuOpen=false;
+    OvershootInterpolator interpolator=new OvershootInterpolator();
 
 
     @Override
@@ -74,18 +78,75 @@ public class MainActivity<notificationHelper> extends AppCompatActivity implemen
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.purple_500));
 
+        //init Floating Action Button
+        initFab();
+
         recyclerView = findViewById(R.id.recyclerView);
-        floatingActionButton = findViewById(R.id.fab);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showProfile();
-            }
-        });
+
         //check the User is null.
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startLoginActivity();
         }
+    }
+
+    private void initFab() {
+        fabMain=findViewById(R.id.fab);
+        fabOne= findViewById(R.id.fab1);
+        fabTwo=findViewById(R.id.fab2);
+
+        fabOne.setAlpha(0f);
+        fabTwo.setAlpha(0f);
+
+        fabOne.setTranslationY(translationY);
+        fabTwo.setTranslationY(translationY);
+
+        fabMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isMenuOpen){
+                    closeMenu();
+                }else{
+                    openMenu();
+                }
+            }
+        });
+
+        fabOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProfile();
+                if (isMenuOpen){
+                    closeMenu();
+                }else{
+                    openMenu();
+                }
+            }
+        });
+
+        fabTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Intent intent=new Intent(MainActivity.this,HistoryActivity.class);
+               startActivity(intent);
+                if (isMenuOpen){
+                    closeMenu();
+                }else{
+                    openMenu();
+                }
+            }
+        });
+    }
+    private  void openMenu(){
+        isMenuOpen=!isMenuOpen;
+        fabMain.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
+        fabOne.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+        fabTwo.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+    }
+    private void closeMenu(){
+        isMenuOpen=!isMenuOpen;
+        fabMain.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
+        fabOne.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+        fabTwo.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
     }
     private void showProfile() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

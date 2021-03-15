@@ -8,17 +8,19 @@ public class Note {
     private String time;
     private Timestamp created;
     private String userId;
+    private String month;
 
     public Note() {
 
     }
 
-    public Note(String title,String date , String time, Timestamp created, String userId) {
+    public Note(String title,String date , String time, Timestamp created, String userId,String month) {
         this.title = title;
         this.date = date;
         this.time = time;
         this.created = created;
         this.userId = userId;
+        this.month=month;
     }
     public String getTitle() {
         return title;
@@ -60,6 +62,14 @@ public class Note {
         this.userId = userId;
     }
 
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
     @Override
     public String toString() {
         return "Note{" +
@@ -68,6 +78,7 @@ public class Note {
                 ", time='" + time + '\'' +
                 ", created=" + created +
                 ", userId='" + userId + '\'' +
+                ", month='" + month + '\'' +
                 '}';
     }
 }

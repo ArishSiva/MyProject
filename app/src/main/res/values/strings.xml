@@ -11,4 +11,21 @@
     <string name="profile">profile</string>
     <string name="logout_d">Logout</string>
     <string name="do_you_really_want_to_exit">Do you really want to exit ?</string>
+    <string name="history">Search</string>
+
+    <string-array name="month">
+        <item id="0">All</item>
+        <item id="1">January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
 </resources>
